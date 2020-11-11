@@ -4,7 +4,7 @@
 // init project
 var express = require("express");
 var app = express();
-var port = 3000
+var port = 3000;
 // process.env.PORT\
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
@@ -16,17 +16,23 @@ app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 2
 app.use(express.static("public"));
 
 // http://expressjs.com/en/starter/basic-routing.html
-app.get("/", function(req, res) {
-  res.sendFile(__dirname + "/views/index.html");
+app.get("/", function (req, res) {
+   res.sendFile(__dirname + "/views/index.html");
+});
+app.get("/timestamp", function (req, res) {
+   res.sendFile(__dirname + "/views/timestamp.html");
+});
+app.get("/RequestHeaderParser", function (req, res) {
+   res.sendFile(__dirname + "/views/RequestHeaderParser.html");
 });
 
 // your first API endpoint...
-app.get("/api/hello", function(req, res) {
-  res.json({
-    greeting: "hello everyone",
-    Intro:
-      "I am Abdullahi Zakariyya and this is my first Backend project with NodeJS"
-  });
+app.get("/api/hello", function (req, res) {
+   res.json({
+      greeting: "hello everyone",
+      Intro:
+         "I am Abdullahi Zakariyya and this is my first Backend project with NodeJS",
+   });
 });
 // let responseObject = {}
 // app.get('/api/timestamp:input', (req, res)=>{
@@ -39,30 +45,30 @@ app.get("/api/hello", function(req, res) {
 //   res.json(responseObject)
 // })
 app.get("/api/timestamp/", (req, res) => {
-  res.json({ unix: Date.now(), utc: Date() });
+   res.json({ unix: Date.now(), utc: Date() });
 });
 
 app.get("/api/timestamp/:date_string", (req, res) => {
-  let dateString = req.params.date_string;
+   let dateString = req.params.date_string;
 
-  //A 4 digit number is a valid ISO-8601 for the beginning of that year
-  //5 digits or more must be a unix time, until we reach a year 10,000 problem
-  if (/\d{5,}/.test(dateString)) {
-    let dateInt = parseInt(dateString);
-    //Date regards numbers as unix timestamps, strings are processed differently
-    res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
-  }
+   //A 4 digit number is a valid ISO-8601 for the beginning of that year
+   //5 digits or more must be a unix time, until we reach a year 10,000 problem
+   if (/\d{5,}/.test(dateString)) {
+      let dateInt = parseInt(dateString);
+      //Date regards numbers as unix timestamps, strings are processed differently
+      res.json({ unix: dateString, utc: new Date(dateInt).toUTCString() });
+   }
 
-  let dateObject = new Date(dateString);
+   let dateObject = new Date(dateString);
 
-  if (dateObject.toString() === "Invalid Date") {
-    res.json({ "error": "Invalid Date" });
-  } else {
-    res.json({ unix: dateObject.valueOf(), utc: dateObject.toUTCString() });
-  }
+   if (dateObject.toString() === "Invalid Date") {
+      res.json({ error: "Invalid Date" });
+   } else {
+      res.json({ unix: dateObject.valueOf(), utc: dateObject.toUTCString() });
+   }
 });
 
 // listen for requests :)
-var listener = app.listen(port, function() {
-  console.log("Your app is listening on port " + listener.address().port);
+var listener = app.listen(port, function () {
+   console.log("Your app is listening on port " + listener.address().port);
 });
