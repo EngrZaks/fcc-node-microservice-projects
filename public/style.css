@@ -1,53 +1,75 @@
 /****** Main Styling ******/
 
 body {
-	font-family: 'Roboto', sans-serif;
-	font-size: 16px;
-	color: #222;
-	background-color: #FaFaFa;
-	text-align: center;
-	line-height: 1.4em;
+   font-family: "Roboto", sans-serif;
+   font-size: 16px;
+   color: #222;
+   background-color: #fafafa;
+   text-align: center;
+   line-height: 1.4em;
 }
 
 .container {
-	padding: 0;
-	margin-top: 40px;
+   padding: 0;
+   margin-top: 40px;
 }
 
 h3 {
-  margin-top: 30px;
+   margin-top: 30px;
 }
 
 .footer {
-	margin-top: 40px;
+   margin-top: 40px;
 }
 
 .user-stories {
-  position: relative;
-  text-align: justify;
-  max-width: 700px;
-  margin: 15px auto;
+   position: relative;
+   text-align: justify;
+   max-width: 700px;
+   margin: 15px auto;
 }
 code {
-  font-family: monospace;
-  padding: 2px;
-  color: black;
-  background-color: #fff;
+   font-family: monospace;
+   padding: 2px;
+   color: black;
+   background-color: #fff;
 }
 ol {
-	list-style-position: outside;
+   list-style-position: outside;
 }
 ul {
-	list-style-type: none;
+   list-style-type: none;
 }
 
 li {
-  margin-bottom: 0.5em;
+   margin-bottom: 0.5em;
 }
 .user-stories li {
-  margin-bottom: 1em;
+   margin-bottom: 1em;
 }
 
 a {
-	color: #2574A9;
+   color: #2574a9;
+}
+main {
+   padding: 0;
+   margin-top: 40px;
+}
+form {
+   margin: 10px auto;
+   padding: 20px;
+   max-width: 600px;
+}
+
+label {
+   margin-right: 10px;
+}
+
+input {
+   padding: 5px;
+}
+
+input[type="text"] {
+   width: 220px;
+   text-align: center;
 }
