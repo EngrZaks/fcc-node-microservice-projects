@@ -5,8 +5,7 @@ workflows:
    node-tests:
       jobs:
          - node/test
- steps:
-      - checkout
+ 
       - run: 
           name: "echo an env var that is part of my project"
           command: |
