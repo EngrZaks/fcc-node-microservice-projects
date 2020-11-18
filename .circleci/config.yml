@@ -2,11 +2,10 @@ version: 2.1
 orbs:
    node: circleci/node@3.0.0
 workflows:
- - run: 
-      name: "echo an env var that is part of our project"
-      command: |
-      echo $MONGO_URI # this env var must be set within the project
    node-tests:
       jobs:
-      
+       run: 
+          name: "echo an env var that is part of our project"
+          command: |
+            echo $MONGO_URI # this env var must be set within the project
          - node/test
