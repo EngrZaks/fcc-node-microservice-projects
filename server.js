@@ -7,7 +7,7 @@ var express = require("express");
 var mongo = require("mongodb");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
-var validate = require("valid-url");
+// var validate = require("valid-url");
 var app = express();
 // var port = 3000;
 var port = process.env.PORT;
@@ -109,11 +109,13 @@ var URLDataSchema = new mongoose.Schema({
 //model
 var URLData = mongoose.model("URLData", URLDataSchema);
 app.post("/api/shorturl/new", (req, res) => {
+   var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+   let urlRgexp = new RegExp(expression);
    const random = Math.floor(Math.random() * 1000);
    const mainUrl = req.body.url;
    const suffix = random.toString();
    var shortUrl = "/api/shorturl/" + suffix;
-   if (validate.isUri(mainUrl)) {
+   if (mainUrl.match(urlRgexp)) {
       console.log("valid url received");
       var NewData = new URLData({
          mainUrl: mainUrl,
