@@ -127,7 +127,7 @@ app.post("/api/shorturl/new", (req, res) => {
             console.log(data);
             res.json({
                original_url: data.mainUrl,
-               short_url: ":" + data.suffix,
+               short_url: data.suffix,
             });
          }
       });
