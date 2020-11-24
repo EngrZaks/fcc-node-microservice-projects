@@ -7,14 +7,17 @@ var express = require("express");
 var mongo = require("mongodb");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+var myUrl = require("url");
+var dns = require("dns");
 // var validate = require("valid-url");
 var app = express();
 // var port = 3000;
-var port = process.env.PORT;
+var port = process.env.PORT || 8080;
 
 // enable CORS (https://en.wikipedia.org/wiki/Cross-origin_resource_sharing)
 // so that your API is remotely testable by FCC
 var cors = require("cors");
+const { url } = require("inspector");
 // app.use(cors({ optionsSuccessStatus: 200 })); // some legacy browsers choke on 204
 app.use(cors());
 // http://expressjs.com/en/starter/static-files.html
@@ -109,34 +112,38 @@ var URLDataSchema = new mongoose.Schema({
 //model
 var URLData = mongoose.model("URLData", URLDataSchema);
 app.post("/api/shorturl/new", (req, res) => {
-   var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-   let urlRgexp = new RegExp(expression);
+   // var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+   // let urlRgexp = new RegExp(expression);
    const random = Math.floor(Math.random() * 1000);
    const mainUrl = req.body.url;
    const suffix = random.toString();
    var shortUrl = "/api/shorturl/" + suffix;
-   if (mainUrl.match(urlRgexp)) {
-      console.log("valid url received");
-      var NewData = new URLData({
-         mainUrl: mainUrl,
-         suffix: suffix,
-         shortUrl: shortUrl,
-      });
-      NewData.save((err, data) => {
-         if (err) {
-            console.log(err);
-         } else {
-            console.log(data);
-            res.json({
-               original_url: data.mainUrl,
-               short_url: data.suffix,
-            });
-         }
-      });
-   } else {
-      console.log("invalid url");
-      res.json({ error: "invalid url" });
-   }
+   const urlObject = new myUrl.parse(mainUrl);
+   dns.lookup(urlObject.hostname, (err, address, family) => {
+      if (err || !urlObject.protocol || !urlObject.host) {
+         res.json({ error: "invalid url" });
+         console.log(err);
+         return;
+      } else {
+         console.log("success", address, family, urlObject);
+         var NewData = new URLData({
+            mainUrl: mainUrl,
+            suffix: suffix,
+            shortUrl: shortUrl,
+         });
+         NewData.save((err, data) => {
+            if (err) {
+               console.log(err);
+            } else {
+               console.log(data);
+               res.json({
+                  original_url: data.mainUrl,
+                  short_url: data.suffix,
+               });
+            }
+         });
+      }
+   });
 });
 //get a request with the new shortened url
 app.get("/api/shorturl/:newsuffix", (req, res) => {
