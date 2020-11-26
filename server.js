@@ -173,14 +173,28 @@ const userSchema = new mongoose.Schema({
 });
 const user = mongoose.model("user", userSchema);
 app.post("/api/exercise/new-user", (req, res) => {
-   let newUser = new user({ username: req.body.username });
-   newUser.save((err, data) => {
+   const username = req.body.username;
+   user.find({ username: username }, (err, data) => {
       if (err) {
          console.log(err);
-         res.send("ERROR");
+         res.send("connection ERROR");
       } else {
-         console.log("success", data);
-         res.json(data);
+         if (data.length > 0) {
+            res.send("Sorry! ): username alredy taken. Try another one");
+            console.log("existing data");
+            return;
+         } else {
+            let newUser = new user({ username: username });
+            newUser.save((err, data) => {
+               if (err) {
+                  console.log(err);
+                  res.send("ERROR");
+               } else {
+                  console.log("success", data);
+                  res.json(data);
+               }
+            });
+         }
       }
    });
 });
