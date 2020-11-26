@@ -232,8 +232,16 @@ app.post("/api/exercise/add", (req, res) => {
             console.log(err);
             res.send("connection ERROR");
          } else {
-            console.log(data);
-            res.json(data);
+            // console.log(data);
+            let ex = data.exerciseData;
+            let exData = ex[ex.length - 1];
+            res.json({
+               _id: data._id,
+               username: data.username,
+               date: exData.date,
+               duration: exData.duration,
+               description: exData.description,
+            });
          }
       }
    );
