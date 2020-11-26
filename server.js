@@ -45,6 +45,10 @@ app.get("/RequestHeaderParser", function (req, res) {
 app.get("/urlshortener", (req, res) => {
    res.sendFile(__dirname + "/views/urlshortener.html");
 });
+//exercise tracker home page
+app.get("/exercise", (req, res) => {
+   res.sendFile(__dirname + "/views/exercise.html");
+});
 
 // your first API endpoint...
 app.get("/api/hello", function (req, res) {
@@ -158,6 +162,25 @@ app.get("/api/shorturl/:newsuffix", (req, res) => {
          console.log(data);
          console.log(data.mainUrl);
          // res.redirect(data.mainUrl);
+      }
+   });
+});
+
+//EXERCISE TRACKER
+
+const userSchema = new mongoose.Schema({
+   username: String,
+});
+const user = mongoose.model("user", userSchema);
+app.post("/api/exercise/new-user", (req, res) => {
+   let newUser = new user({ username: req.body.username });
+   newUser.save((err, data) => {
+      if (err) {
+         console.log(err);
+         res.send("ERROR");
+      } else {
+         console.log("success", data);
+         res.json(data);
       }
    });
 });
