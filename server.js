@@ -170,6 +170,7 @@ app.get("/api/shorturl/:newsuffix", (req, res) => {
 
 const userSchema = new mongoose.Schema({
    username: String,
+   exerciseData: [{ description: String, duration: Number, date: Date }],
 });
 const user = mongoose.model("user", userSchema);
 app.post("/api/exercise/new-user", (req, res) => {
@@ -184,14 +185,16 @@ app.post("/api/exercise/new-user", (req, res) => {
             console.log("existing data");
             return;
          } else {
-            let newUser = new user({ username: username });
+            let newUser = new user({
+               username: username,
+            });
             newUser.save((err, data) => {
                if (err) {
                   console.log(err);
                   res.send("ERROR");
                } else {
                   console.log("success", data);
-                  res.json(data);
+                  res.json({ username: data.username, _id: data._id });
                }
             });
          }
@@ -208,6 +211,32 @@ app.get("/api/exercise/users", (req, res) => {
          res.json(data);
       }
    });
+});
+app.post("/api/exercise/add", (req, res) => {
+   let { userId, description, duration, date } = req.body;
+   if (date === "") date = new Date();
+   user.findByIdAndUpdate(
+      userId,
+      {
+         $push: {
+            exerciseData: {
+               description: description,
+               duration: duration,
+               date: date,
+            },
+         },
+      },
+      { new: true },
+      (err, data) => {
+         if (err) {
+            console.log(err);
+            res.send("connection ERROR");
+         } else {
+            console.log(data);
+            res.json(data);
+         }
+      }
+   );
 });
 // console.log(mongoose.connection.readyState);
 
