@@ -184,6 +184,17 @@ app.post("/api/exercise/new-user", (req, res) => {
       }
    });
 });
+app.get("/api/exercise/users", (req, res) => {
+   user.find((err, data) => {
+      if (err) {
+         console.log(err);
+         res.send("ERROR");
+      } else {
+         console.log(data);
+         res.json(data);
+      }
+   });
+});
 // console.log(mongoose.connection.readyState);
 
 // listen for requests :)
