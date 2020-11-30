@@ -249,6 +249,31 @@ app.post("/api/exercise/add", (req, res) => {
       }
    );
 });
+app.get("/api/exercise/log", (req, res) => {
+   if (req.query.userId) {
+      let id = req.query.userId;
+      console.log(id);
+      user
+         .findById(id)
+         .select("-exerciseData._id")
+         .exec((err, data) => {
+            if (err) {
+               console.log(err);
+               res.send("COONECTION ERROR");
+            } else {
+               res.json({
+                  _d: data._id,
+                  username: data.username,
+                  count: data.exerciseData.length,
+                  log: data.exerciseData,
+               });
+            }
+         });
+   } else {
+      res.send("userId not set");
+      console.log("no id");
+   }
+});
 // console.log(mongoose.connection.readyState);
 
 // listen for requests :)
