@@ -277,7 +277,7 @@ app.get("/api/exercise/log", (req, res) => {
                log = limit ? log.slice(0, limit) : log;
 
                res.json({
-                  _d: data._id,
+                  _id: data._id,
                   username: data.username,
                   count: data.exerciseData.length,
                   log: log,
