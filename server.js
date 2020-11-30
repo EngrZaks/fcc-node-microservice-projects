@@ -156,7 +156,7 @@ app.post("/api/shorturl/new", (req, res) => {
    });
 });
 //get a request with the new shortened url
-app.get("/api/shorturl/:newsuffix", (req, res) => {
+app.get("/api/shorturl/:newsuffix", (req, res, next) => {
    let newsuffix = req.params.newsuffix;
    // let newshorturl = "/api/shorturl/" + mews;
    URLData.findOne({ suffix: newsuffix }, (err, data) => {
