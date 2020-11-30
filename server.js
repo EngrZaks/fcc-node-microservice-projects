@@ -299,12 +299,16 @@ app.get("/api/exercise/log", (req, res) => {
 //FILE METADATA
 
 app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
-   console.log(req.file);
-   res.json({
-      name: req.file.originalname,
-      type: req.file.mimetype,
-      size: req.file.size,
-   });
+   if (!req.file) {
+      res.send("No file chosen");
+      return;
+   } else if (req.file) {
+      res.json({
+         name: req.file.originalname,
+         type: req.file.mimetype,
+         size: req.file.size,
+      });
+   }
 });
 // console.log(mongoose.connection.readyState);
 
