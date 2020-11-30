@@ -49,6 +49,10 @@ app.get("/urlshortener", (req, res) => {
 app.get("/exercise", (req, res) => {
    res.sendFile(__dirname + "/views/exercise.html");
 });
+// file metadata home page
+app.get("/metadata", (req, res) => {
+   res.sendFile(__dirname + "/views/metadata.html");
+});
 
 // your first API endpoint...
 app.get("/api/hello", function (req, res) {
