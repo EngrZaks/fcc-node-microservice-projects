@@ -170,7 +170,7 @@ app.get("/api/shorturl/:newsuffix", (req, res) => {
 
 const userSchema = new mongoose.Schema({
    username: String,
-   exerciseData: [{ description: String, duration: Number, date: Date }],
+   exerciseData: [{ description: String, duration: Number, date: String }],
 });
 const user = mongoose.model("user", userSchema);
 app.post("/api/exercise/new-user", (req, res) => {
@@ -214,7 +214,10 @@ app.get("/api/exercise/users", (req, res) => {
 });
 app.post("/api/exercise/add", (req, res) => {
    let { userId, description, duration, date } = req.body;
-   if (date === "") date = new Date();
+   // if (date === "") date = new Date().toDateString();
+   date =
+      date === "" ? new Date().toDateString() : new Date(date).toDateString();
+   console.log(date);
    user.findByIdAndUpdate(
       userId,
       {
