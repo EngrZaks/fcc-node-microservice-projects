@@ -261,11 +261,26 @@ app.get("/api/exercise/log", (req, res) => {
                console.log(err);
                res.send("COONECTION ERROR");
             } else {
+               let { from, to, limit } = req.query;
+               let log = data.exerciseData;
+               let fromDate = from
+                  ? new Date(from).getTime()
+                  : new Date(0).getTime();
+               let toDate = to ? new Date(to).getTime() : new Date().getTime();
+               console.log(fromDate, toDate);
+               if (from || to) {
+                  log = log.filter((thislog) => {
+                     let logdate = new Date(thislog.date).getTime();
+                     return logdate >= fromDate && logdate <= toDate;
+                  });
+               }
+               log = limit ? log.slice(0, limit) : log;
+
                res.json({
                   _d: data._id,
                   username: data.username,
                   count: data.exerciseData.length,
-                  log: data.exerciseData,
+                  log: log,
                });
             }
          });
