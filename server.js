@@ -10,7 +10,7 @@ var bodyParser = require("body-parser");
 var myUrl = require("url");
 var dns = require("dns");
 var multer = require("multer");
-var upload = multer({ dest: "./public/uploads" });
+var upload = multer({ dest: "uploads/" });
 // var validate = require("valid-url");
 var app = express();
 // var port = 3000;
@@ -298,7 +298,7 @@ app.get("/api/exercise/log", (req, res) => {
 
 //FILE METADATA
 
-app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
+app.post("/api/fileanalyse", upload.single("upfile"), (req, res, next) => {
    if (!req.file) {
       res.send("No file chosen");
       return;
