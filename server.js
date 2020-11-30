@@ -9,6 +9,8 @@ var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
 var myUrl = require("url");
 var dns = require("dns");
+var multer = require("multer");
+var upload = multer({ dest: "./public/uploads" });
 // var validate = require("valid-url");
 var app = express();
 // var port = 3000;
@@ -292,6 +294,17 @@ app.get("/api/exercise/log", (req, res) => {
       res.send("userId not set");
       console.log("no id");
    }
+});
+
+//FILE METADATA
+
+app.post("/api/fileanalyse", upload.single("upfile"), (req, res) => {
+   console.log(req.file);
+   res.json({
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      size: req.file.size,
+   });
 });
 // console.log(mongoose.connection.readyState);
 
