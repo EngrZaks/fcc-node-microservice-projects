@@ -1,4 +1,4 @@
-# An FCC Backend Challenge webApp
+# A Backend Challenge webApp
 
 ## Description:
 
@@ -7,4 +7,5 @@ NodeJs microservices projects in the form of a portfolio. Other pages will be ad
 
 ## Links
 
-the projects' web app can be found [here](https://zaks-node-projects.herokuapp.com/)
+the projects' web app can be found [here Live](https://zaks-node-projects.herokuapp.com/)
+this project is inspired by [freeCodeCamp](https://freecodecamp.org)
